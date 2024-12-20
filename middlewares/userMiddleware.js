@@ -1,3 +1,7 @@
+//===================================================================
+// User middleware to check for authorization and validate token
+//===================================================================
+
 const { verifyToken } = require('../services/userService');
 
 exports.protect = async (req, res, next) => {

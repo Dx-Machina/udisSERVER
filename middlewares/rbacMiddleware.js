@@ -1,13 +1,16 @@
-// rbacMiddleware.js
+//===================================================================
+// Role-Based Access Control (RBAC) Middleware
+//===================================================================
 
 const { ROLE_PERMISSIONS } = require('../constants/roles');
 
 /**
  * Middleware for Role-Based Access Control (RBAC).
  * @param {String} resource - The resource being accessed.
- * @param {String} action - The action being performed (e.g., 'read', 'update').
+ * @param {String} action - The action being performed ('read', 'update').
  * @returns {Function} Middleware function.
  */
+
 const rbacMiddleware = (resource, action) => {
   return (req, res, next) => {
     const userRole = req.user.role;

@@ -1,3 +1,7 @@
+//===================================================================
+// Wallet Model
+//===================================================================
+
 const mongoose = require('mongoose');
 
 const walletSchema = new mongoose.Schema({
@@ -9,11 +13,11 @@ const walletSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true, // Inherited from User
+    required: true, 
   },
   email: {
     type: String,
-    required: true, // Inherited from User
+    required: true,
   },
   balance: {
     type: Number,

@@ -1,4 +1,6 @@
-// services/educationService.js
+//====================================================================================
+// Education Service
+//====================================================================================
 const User = require('../models/User');
 
 // Existing functions omitted for brevity

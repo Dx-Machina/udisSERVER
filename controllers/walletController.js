@@ -1,6 +1,9 @@
+//===================================================================
+// Wallet Controller
+//===================================================================
+
 const { getWallet, sendMoney, generateWalletQRCode } = require('../services/walletService');
 
-// Fetch wallet details for the authenticated user
 exports.getWalletDetails = async (req, res) => {
   try {
     console.log(`[walletController][getWalletDetails]: Fetching wallet for user: ${req.user.udisId}`);
@@ -23,7 +26,7 @@ exports.sendMoney = async (req, res) => {
     console.log(`[walletController][sendMoney]: ${req.user.name} Sending ${amount} to ${recipientId}`);
 
     const recipientQuery = recipientId.includes('@')
-      ? { email: recipientId } // If it contains '@', treat as email
+      ? { email: recipientId } // If recipientId is an email 
       : { udisId: recipientId }; // Otherwise, treat as UDIS ID
 
     const result = await sendMoney({

@@ -1,4 +1,6 @@
-// services/healthcareService.js
+//===================================================================
+// Healthcare service
+//===================================================================
 const User = require('../models/User');
 
 const getHealthcareData = async (query) => {
@@ -25,16 +27,16 @@ const addRecentHealthcareInteraction = async (doctorUdisId, patient) => {
   }
 
   let arr = doctor.recentInteractions.healthcare || [];
-  // Remove if already exists to avoid duplicates
+  
   arr = arr.filter(p => p.udisId !== patient.udisId);
-  // Add to front
+  // Add user to front
   arr.unshift({
     udisId: patient.udisId,
     name: patient.name,
     avatarPicture: patient.avatarPicture || ''
   });
-  // Keep last 10
-  arr = arr.slice(0, 10);
+ 
+  arr = arr.slice(0, 10); // Keep last 10
 
   doctor.recentInteractions.healthcare = arr;
   await doctor.save();

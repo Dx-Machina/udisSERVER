@@ -1,5 +1,6 @@
-// healthcareRoutes.js
-
+//===================================================================
+//  Healthcare Routes
+//===================================================================
 const express = require('express');
 const { protect } = require('../middlewares/userMiddleware');
 const rbacMiddleware = require('../middlewares/rbacMiddleware');

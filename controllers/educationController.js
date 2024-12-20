@@ -1,4 +1,7 @@
-// controllers/educationController.js
+//========================================================================================================================
+// Education Controller
+//========================================================================================================================
+
 const { 
   getUserEducation, 
   updateUserEducation, 
@@ -6,7 +9,9 @@ const {
   getRecentStudentsForTeacher,
   removeRecentStudentForTeacher
 } = require('../services/educationService');
+//========================================================================================================================
 
+//========================================================================================================================
 function sanitizeEducationData(education) {
   if (!education) return { major: '', classes: [] };
 
@@ -27,14 +32,14 @@ function sanitizeEducationData(education) {
 
   return { major, classes };
 }
+//========================================================================================================================
 
-exports.getUserEducationData = async (req, res) => {
+//========================================================================================================================
+exports.getUserEducationData = async (req, res) => { // delegate to services*****
   try {
     const { udisId } = req.params;
     const result = await getUserEducation(udisId);
 
-    // If the requester is a Teacher, update recentInteractions.education
-    // Only do this if result.rawUser.udisId is defined
     if (req.user && req.user.role === 'Teacher' && result.rawUser.udisId) {
       await addRecentEducationInteraction(req.user.udisId, {
         udisId: result.rawUser.udisId, // Ensure we always pass udisId
@@ -56,7 +61,9 @@ exports.getUserEducationData = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.updateUserEducationData = async (req, res) => {
   try {
     const { udisId } = req.params;
@@ -64,7 +71,6 @@ exports.updateUserEducationData = async (req, res) => {
 
     const result = await updateUserEducation(udisId, education);
 
-    // Optionally re-add to recentInteractions if udisId is present
     if (req.user && req.user.role === 'Teacher' && result.rawUser.udisId) {
       await addRecentEducationInteraction(req.user.udisId, {
         udisId: result.rawUser.udisId,
@@ -84,7 +90,9 @@ exports.updateUserEducationData = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.getRecentStudents = async (req, res) => {
   try {
     if (req.user.role !== 'Teacher') {
@@ -98,7 +106,9 @@ exports.getRecentStudents = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.removeRecentStudent = async (req, res) => {
   try {
     if (req.user.role !== 'Teacher') {
@@ -117,6 +127,4 @@ exports.removeRecentStudent = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
-
-
-// do the same to doctors domain 
+//========================================================================================================================

@@ -1,3 +1,7 @@
+//===================================================================
+// User model 
+//===================================================================
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -120,7 +124,7 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-// Password hashing
+// Password hashing middleware
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
@@ -131,7 +135,7 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
-// Password comparison
+// Password comparison method
 UserSchema.methods.comparePassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };

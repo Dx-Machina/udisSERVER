@@ -1,4 +1,6 @@
-// userRoutes.js
+//===================================================================
+// User routes
+//===================================================================
 const express = require('express');
 const { registerUser, loginUser, generateUserQRCode, verifyUserById } = require('../controllers/userController');
 const { getAccessLogs, getAuditTrails } = require('../controllers/logController');
@@ -7,15 +9,14 @@ const roleMiddleware = require('../middlewares/rbacMiddleware');
 const { ADMIN_ROLES } = require('../constants/roles');
 const multer = require('multer');
 
-// Set up multer to store files in 'uploads/' directory
+// Multer configuration
 const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
-// Authentication routes
-// Use upload.fields to accept multiple file fields 'pictureId' and 'avatarPicture'
+// Authentication routes for user registration and login
 router.post('/register', upload.fields([
-  { name: 'pictureId', maxCount: 1 },
+  { name: 'pictureId', maxCount: 1 }, 
   { name: 'avatarPicture', maxCount: 1 }
 ]), registerUser);
 
@@ -26,6 +27,7 @@ router.get('/user', protect, (req, res) => {
   res.status(200).json(req.user);
 });
 
+// Generate QR code for user route
 router.get('/qrcode', protect, generateUserQRCode);
 router.get('/verify/:udisId', verifyUserById);
 

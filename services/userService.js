@@ -1,5 +1,7 @@
+//====================================================================================
+// UserService 
+//====================================================================================
 const User = require('../models/User');
-const Wallet = require('../models/Wallet');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 

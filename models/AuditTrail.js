@@ -1,3 +1,7 @@
+//===================================================================
+// AuditTrail model to log audit trails
+//===================================================================
+
 const mongoose = require('mongoose');
 
 const AuditTrailSchema = new mongoose.Schema({

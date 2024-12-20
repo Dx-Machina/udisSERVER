@@ -1,3 +1,7 @@
+//===================================================================
+// AccessLog model to log access events
+//===================================================================
+
 const mongoose = require('mongoose');
 
 const AccessLogSchema = new mongoose.Schema({

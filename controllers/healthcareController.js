@@ -1,4 +1,6 @@
-// controllers/healthcareController.js
+//========================================================================================================================
+// Healthcare Controller
+//========================================================================================================================
 const { 
   getHealthcareData, 
   updateHealthcareData, 
@@ -11,6 +13,7 @@ const {
   updateAppointmentRequestStatus
 } = require('../services/healthcareService');
 
+//========================================================================================================================
 exports.getUserHealthcareData = async (req, res) => {
   try {
     const { udisId } = req.params;
@@ -25,13 +28,14 @@ exports.getUserHealthcareData = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.getPatientHealthcareData = async (req, res) => {
   try {
     const { udisId } = req.params;
     const patient = await getHealthcareData({ udisId });
 
-    // Add to recentInteractions.healthcare if role is Doctor and patient has udisId
     if (req.user && req.user.role === 'Doctor' && patient.udisId) {
       await addRecentHealthcareInteraction(req.user.udisId, {
         udisId: patient.udisId,
@@ -46,15 +50,16 @@ exports.getPatientHealthcareData = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.updatePatientHealthcareData = async (req, res) => {
   try {
     const { udisId } = req.params;
-    const healthcareUpdate = req.body.healthcare; // expecting { healthcare: {...} }
+    const healthcareUpdate = req.body.healthcare;
 
     const updatedPatient = await updateHealthcareData(udisId, healthcareUpdate);
 
-    // Re-add to recent interactions after update, if role is Doctor and udisId is present
     if (req.user && req.user.role === 'Doctor' && updatedPatient.udisId) {
       await addRecentHealthcareInteraction(req.user.udisId, {
         udisId: updatedPatient.udisId,
@@ -72,7 +77,9 @@ exports.updatePatientHealthcareData = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.getDoctorRecentPatients = async (req, res) => {
   try {
     if (req.user.role !== 'Doctor') {
@@ -86,7 +93,9 @@ exports.getDoctorRecentPatients = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.removeRecentPatient = async (req, res) => {
   try {
     if (req.user.role !== 'Doctor') {
@@ -105,8 +114,9 @@ exports.removeRecentPatient = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+//========================================================================================================================
 
-// Update patient's care team
+//========================================================================================================================
 exports.assignCareTeam = async (req, res) => {
   try {
     if (req.user.role !== 'Doctor') {
@@ -122,16 +132,15 @@ exports.assignCareTeam = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+//========================================================================================================================
 
-// Appointment requests
+//========================================================================================================================
 exports.requestAppointment = async (req, res) => {
   try {
     const { doctorUdisId, description } = req.body;
     if (!req.user.udisId) {
       return res.status(403).json({ message: 'Not logged in or invalid token.' });
     }
-
-    // The requestor is the patient (citizen)
     const patientUdisId = req.user.udisId;
     const result = await requestAppointment(patientUdisId, doctorUdisId, description);
     res.status(200).json(result);
@@ -140,7 +149,9 @@ exports.requestAppointment = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.getAppointmentRequests = async (req, res) => {
   try {
     if (req.user.role !== 'Doctor') {
@@ -154,7 +165,9 @@ exports.getAppointmentRequests = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+//========================================================================================================================
 
+//========================================================================================================================
 exports.updateAppointmentRequest = async (req, res) => {
   try {
     if (req.user.role !== 'Doctor') {
@@ -169,3 +182,4 @@ exports.updateAppointmentRequest = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+//========================================================================================================================

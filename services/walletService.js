@@ -1,3 +1,6 @@
+//====================================================================================
+// Wallet Service
+//====================================================================================
 const Wallet = require('../models/Wallet');
 const { getUser } = require('./userService');
 const { generateQRCode } = require('../utils/qrCodeGenerator');

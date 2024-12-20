@@ -1,4 +1,6 @@
-// userController.js
+//===================================================================
+// User Controller
+//===================================================================
 const { createUser, getUser, generateAuthToken, authenticateUser } = require('../services/userService');
 const { createWallet } = require('../services/walletService');
 const { generateQRCode } = require('../utils/qrCodeGenerator');
@@ -24,7 +26,6 @@ const registerUser = async (req, res) => {
       role,
       birthdate,
       phone,
-      // If files are uploaded, store their paths. If not, store empty string.
       pictureId: pictureFile ? `/uploads/${pictureFile.filename}` : '',
       avatarPicture: avatarFile ? `/uploads/${avatarFile.filename}` : ''
     });
@@ -86,14 +87,14 @@ const generateUserQRCode = async (req, res) => {
   }
 };
 
-const verifyUserById = async (req, res) => {
+const verifyUserById = async (req, res) => { // Delegate this functionality to the service layer*****
   try {
     const { udisId } = req.params;
 
     let query;
     if (udisId.includes('@')) {
-      // If it contains '@', treat as email
-      query = { email: udisId };
+
+      query = { email: udisId }; // Treat as email
     } else {
       // Otherwise, treat as UDIS ID
       query = { udisId };

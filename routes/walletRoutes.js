@@ -1,3 +1,6 @@
+//====================================================================================
+// Wallet routes
+//====================================================================================
 const express = require('express');
 const { getWalletDetails, sendMoney, generateWalletQRCode } = require('../controllers/walletController');
 const { protect } = require('../middlewares/userMiddleware');
