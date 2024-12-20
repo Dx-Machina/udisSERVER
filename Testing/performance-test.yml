@@ -1,0 +1,19 @@
+config:
+  target: "http://localhost:5001"  # Target URL
+  phases:
+    - duration: 60   # Test for 60 seconds
+      arrivalRate: 10 # Simulate 10 users per second
+scenarios:
+  - flow:
+      - post:
+          url: "/api/auth/register"
+          json:
+            name: "{{ $randomFullName }}"
+            email: "{{ $randomEmail }}"
+            password: "password123"
+  - flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "john@example.com"
+            password: "password123"
