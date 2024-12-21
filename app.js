@@ -22,7 +22,6 @@ if (!process.env.SESSION_SECRET) {
 }
 //========================================================================================================================
 
-
 //========================================================================================================================
 // MongoDB connection
 connectDB();
@@ -37,16 +36,7 @@ app.use(cors({
 //========================================================================================================================
 
 //========================================================================================================================
-// app.use(session({
-//   secret: process.env.SESSION_SECRET || 'default-secret', 
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//     maxAge: 30 * 60 * 1000, 
-//     secure: process.env.NODE_ENV === 'production', 
-//     httpOnly: true, 
-//   },
-// }));
+// Session configuration with MongoStore
 app.use(session({
   secret: process.env.SESSION_SECRET || 'default-secret',
   resave: false,
@@ -59,7 +49,9 @@ app.use(session({
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
   }
+})); // <-- Make sure you close all braces and parentheses here!
 //========================================================================================================================
+
 // Middleware to parse JSON requests
 app.use(express.json());
 
@@ -67,7 +59,7 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
 //========================================================================================================================
-// Normal routess
+// Normal routes
 app.use('/api/user', userRoutes); 
 app.use('/api/education', educationRoutes);
 app.use('/api/healthcare', healthcareRoutes);
