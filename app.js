@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const session = require('express-session');
 const cors = require('cors');
-
+const MongoStore = require('connect-mongo');
 const userRoutes = require('./routes/userRoutes');
 const walletRoutes = require('./routes/walletRoutes');
 const educationRoutes = require('./routes/educationRoutes');
@@ -37,16 +37,28 @@ app.use(cors({
 //========================================================================================================================
 
 //========================================================================================================================
+// app.use(session({
+//   secret: process.env.SESSION_SECRET || 'default-secret', 
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     maxAge: 30 * 60 * 1000, 
+//     secure: process.env.NODE_ENV === 'production', 
+//     httpOnly: true, 
+//   },
+// }));
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'default-secret', 
+  secret: process.env.SESSION_SECRET || 'default-secret',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
+  store: MongoStore.create({ 
+    mongoUrl: process.env.MONGO_URI // your Mongo connection string
+  }),
   cookie: {
-    maxAge: 30 * 60 * 1000, 
-    secure: process.env.NODE_ENV === 'production', 
-    httpOnly: true, 
-  },
-}));
+    maxAge: 30 * 60 * 1000,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+  }
 //========================================================================================================================
 // Middleware to parse JSON requests
 app.use(express.json());
